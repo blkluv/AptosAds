@@ -5,15 +5,15 @@ const Reel = ({ videoSrc, title, description, likes, views, shares }) => {
   return (
     <div className="relative flex h-screen w-screen p-2 bg-green-00">
       {/* Video Section */}
-      <div className="flex flex-col w-[50vw] h-full bg-red-00">
+      <div className="flex relative  flex-col w-[50vw] h-full bg-red-300">
         <video
-          className="object-cover w-[50vw] h-[70%] rounded-br-[35px] rounded-lg"
+          className="object-cover w-[50vw] h-full rounded-br-[35px] rounded-lg"
           src={videoSrc}
           autoPlay
           loop
           muted
         ></video>
-        <div className="flex pt-3 h-[30%] items-center justify-evenly">
+        <div className="flex absolute bottom-0 pt-3 h-[30%] bg-red500 w-full items-center justify-evenly">
           <button className="w-[40%] h-[10vh] font-light bg-gradient-to-br from-[#1c1c1c] via-[#2a2a2a] to-[#111111] rounded-xl text-xl text-[#fff] border border-[#ffffff39]">
             Viral
           </button>
