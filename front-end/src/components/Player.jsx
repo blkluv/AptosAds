@@ -59,7 +59,7 @@ const Player = () => {
   return (
     <div
       ref={containerRef}
-      className="relative hide-scrollbar  flex items-center h-screen w-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gray-500  text-pink-500 font-pixel"
+      className="relative hide-scrollbar  flex items-center h-screen md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gray-500  text-pink-500 font-pixel"
     >
       {/* Dynamically render reels */}
       <div className="w-full  h-full flex flex-col">
