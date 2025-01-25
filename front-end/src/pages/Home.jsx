@@ -1,4 +1,4 @@
-import { Button, Quote } from "@radix-ui/themes";
+import { Quote } from "@radix-ui/themes";
 import toast from "react-hot-toast";
 import WalletCoonectBtn from "../components/WalletConnectBtn";
 
