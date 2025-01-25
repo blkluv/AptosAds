@@ -1,40 +1,40 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const memeSchema = new Schema(
-	{
-		title: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-		media: {
-			type: {
-				link: String,
-				mediaType: ['image', 'video'],
-			},
-			required: true,
-		},
-		creator: {
-			type: Schema.Types.ObjectId,
-			ref: 'User',
-		},
-		likers: {
-			type: [Schema.Types.ObjectId],
-			ref: 'User',
-		},
-		views: {
-			type: Number,
-			default: 0,
-		},
-		bets: {
-			type: {
-				viral: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-				notViral: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-			},
-		},
-	},
-	{ timestamps: true }
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    media: {
+      type: {
+        link: String,
+        mediaType: ["image", "video"],
+      },
+      required: true,
+    },
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    likers: {
+      type: [Schema.Types.ObjectId],
+      ref: "User",
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    bets: {
+      type: {
+        viral: [{ type: Schema.Types.ObjectId, ref: "User" }],
+        notViral: [{ type: Schema.Types.ObjectId, ref: "User" }],
+      },
+    },
+  },
+  { timestamps: true }
 );
 
-const Meme = model('Meme', memeSchema);
+const Meme = model("Meme", memeSchema);
 module.exports = Meme;
