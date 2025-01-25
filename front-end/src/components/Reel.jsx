@@ -1,65 +1,86 @@
-import React from "react";
-import { FaHeart, FaComment, FaShare } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaHeart, FaComment, FaShare, FaArrowDown } from "react-icons/fa";
 
 const Reel = ({ videoSrc, title, description, likes, views, shares }) => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Toggle drawer visibility
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
   return (
-    <div className="relative flex h-screen w-screen p-2 bg-green-00">
+    <div className="relative flex flex-col h-screen w-[30vw] max-sm:w-[100vw]  bg-gray-900">
       {/* Video Section */}
-      <div className="flex relative  flex-col w-[50vw] h-full bg-red-300">
+      <div className="flex flex-col w-full h-[95%]">
         <video
-          className="object-cover w-[50vw] h-full rounded-br-[35px] rounded-lg"
+          className="object-cover w-full h-full "
           src={videoSrc}
           autoPlay
           loop
           muted
         ></video>
-        <div className="flex absolute bottom-0 pt-3 h-[30%] bg-red500 w-full items-center justify-evenly">
-          <button className="w-[40%] h-[10vh] font-light bg-gradient-to-br from-[#1c1c1c] via-[#2a2a2a] to-[#111111] rounded-xl text-xl text-[#fff] border border-[#ffffff39]">
-            Viral
-          </button>
-          <button className="w-[40%] h-[10vh] font-light bg-gradient-to-br from-[#1c1c1c] via-[#2a2a2a] to-[#111111] rounded-xl text-xl text-[#fff] border border-[#ffffff55]">
-            Not Viral
+      </div>
+
+      {/* Description Drawer Section */}
+      <div
+        className={`transition-all duration-300 ease-in-out ${
+          drawerOpen ? "h-[50%]" : "h-[10%]"
+        } bg-[#00000083] text-white p-4 absolute bottom-0 left-0 w-full rounded-t-2xl`}
+      >
+        {/* Title */}
+        <h1
+          className={`text-xl font-semibold text-white mb-2 ${
+            drawerOpen ? "absolute top-2" : "relative"
+          }`}
+        >
+          {title}
+        </h1>
+
+        {/* Description */}
+        <p
+          className={`text-base text-gray-300 transition-all duration-300 ease-in-out ${
+            drawerOpen ? "h-[80%] mt-7 overflow-auto" : "h-0 overflow-hidden"
+          }`}
+        >
+          {description}
+        </p>
+
+        {/* Arrow to toggle drawer */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <button
+            onClick={toggleDrawer}
+            className="bg-gray-700 text-white p-2 rounded-full"
+          >
+            <FaArrowDown size={20} className={`transform ${drawerOpen ? "rotate-180" : ""}`} />
           </button>
         </div>
       </div>
 
-      {/* Right Section */}
-      <div className="h-full w-[45vw] flex flex-col gap-3 bg-red-00 p-4 text-white">
-        {/* Title - Truncated to 2 lines */}
-        <h1 className="text-2xl font-bold line-clamp-2">{title}</h1>
+      {/* Icons (Like, Comment, Share) */}
+      <div className="absolute bottom-4 right-4 flex flex-col items-center gap-4">
+        {/* Like Button with Likes Count */}
+        <div className="flex flex-col items-center">
+          <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+            <FaHeart size={24} />
+          </button>
+          <span className="text-sm mt-2">{likes} Likes</span>
+        </div>
 
-        {/* Description - Clamp to 5 lines and make it scrollable */}
-        <p className="text-lg text-gray-300 line-clamp-5 overflow-auto">
-          {description}
-        </p>
+        {/* Comment Button with Views Count */}
+        <div className="flex flex-col items-center">
+          <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+            <FaComment size={24} />
+          </button>
+          <span className="text-sm mt-2">{views} Views</span>
+        </div>
 
-        {/* Like, Comment, Share Buttons with counts */}
-        <div className="p-4 flex justify-start">
-          <div className="flex flex-col gap-4 items-center text-white">
-            {/* Like Button with Likes Count */}
-            <div className="flex flex-col items-center">
-              <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
-                <FaHeart size={24} />
-              </button>
-              <span className="text-sm mt-2">{likes} Likes</span>
-            </div>
-
-            {/* Comment Button with Comments Count */}
-            <div className="flex flex-col items-center">
-              <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
-                <FaComment size={24} />
-              </button>
-              <span className="text-sm mt-2">{views} Views</span>
-            </div>
-
-            {/* Share Button with Shares Count */}
-            <div className="flex flex-col items-center">
-              <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
-                <FaShare size={24} />
-              </button>
-              <span className="text-sm mt-2">{shares} Shares</span>
-            </div>
-          </div>
+        {/* Share Button with Shares Count */}
+        <div className="flex flex-col items-center">
+          <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+            <FaShare size={24} />
+          </button>
+          <span className="text-sm mt-2">{shares} Shares</span>
         </div>
       </div>
     </div>

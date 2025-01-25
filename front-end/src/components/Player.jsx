@@ -59,14 +59,14 @@ const Player = () => {
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col items-center h-screen w-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gray-900 text-pink-500 font-pixel"
+      className="relative hide-scrollbar  flex items-center h-screen w-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gray-500  text-pink-500 font-pixel"
     >
       {/* Dynamically render reels */}
-      <div className="w-full h-full flex flex-col">
+      <div className="w-full  h-full flex flex-col">
         {reelsData.map((reel, index) => (
           <div
             key={index}
-            className={`w-full h-screen snap-start transition-transform duration-300 ${
+            className={`w-full h-screen snap-start transition-transform duration-500 ${
               index === currentReel ? "opacity-100" : "opacity-0"
             }`}
           >
