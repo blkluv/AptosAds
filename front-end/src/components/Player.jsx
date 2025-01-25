@@ -6,7 +6,7 @@ const Player = () => {
   const reelsData = [
     {
       videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
-      title: "Amazing Video 1",
+      title: "Amazing sdfghjkl;kjhgfdsfghjklkjhgfdsVideo 1",
       description: "This is an amazing video description 1.",
       likes: 120,
       views: 1500,
