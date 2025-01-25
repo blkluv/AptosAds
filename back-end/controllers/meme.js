@@ -78,7 +78,6 @@ const likeMeme = async (req, res) => {
     res.status(500).send(error);
   }
 };
-F;
 module.exports = {
   createAmeme,
   getMemes,
