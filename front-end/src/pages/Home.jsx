@@ -1,6 +1,6 @@
 import { Quote } from "@radix-ui/themes";
 import toast from "react-hot-toast";
-import WalletCoonectBtn from "../components/WalletConnectBtn";
+import WalletConnectBtn from "../components/WalletConnectBtn";
 
 function Home() {
   const click = () => {
@@ -13,7 +13,7 @@ function Home() {
         righteous man is beset on all sides by the inequities of the selfish and
         the tyranny of evil men
       </Quote>
-      <WalletCoonectBtn />
+      <WalletConnectBtn />
     </div>
   );
 }
