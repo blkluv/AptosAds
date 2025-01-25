@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
-
+import {useNavigate} from 'react-router-dom';
 const WalletConnectBtn = () => {
+	const navigate = useNavigate();
 	const getAptosWallet = () => {
 		if ('aptos' in window) {
 			return window.aptos;
@@ -17,6 +18,9 @@ const WalletConnectBtn = () => {
 
 			const account = await wallet.account();
 			console.log(account); // { address: string, address: string }
+			
+			toast.success('Connected to wallet');
+			navigate('/auth/details', { state: { walletAddress: account.address } });
 		} catch (error) {
 			toast.error('Failed to connect wallet');
 		}
