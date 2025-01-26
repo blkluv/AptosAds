@@ -7,7 +7,7 @@ const createAmeme = async (req, res) => {
 		const user = await User.findOne({ email });
 		const meme = new Meme({
 			title,
-      description,
+			description,
 			media,
 			creator: user._id,
 		});
@@ -41,50 +41,82 @@ const getAMeme = async (req, res) => {
 };
 
 const memeAction = async (req, res) => {
-    try {
-        const { memeId } = req.params;
-        const { action } = req.body;
-        const meme = await Meme.findById(memeId);
-        if (!meme) {
-            return res.status(404).send({ message: "Meme not found" });
-        }
-        if (!["viral", "notViral"].includes(action)) {
-            return res.status(400).send({ message: "Invalid action" });
-        }
-        meme.bets[action].push(req.user._id);
-        const user = await User.findById(req.user._id);
-        user[`${action}Bets`].push(memeId);
-        await user.save();
-        await meme.save();
-        res.status(200).send({ message: "Action successful", meme });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-    }
+	try {
+    // amount in APTOS coin
+		const { memeId, amount } = req.params;
+		const { action, email } = req.body;
+		const u = await User.findOne({ email });
+		if (!u) {
+			return res.status(404).send({ message: 'User not founds' });
+		}
+		const meme = await Meme.findById(memeId);
+		if (!meme) {
+			return res.status(404).send({ message: 'Meme not found' });
+		}
+		if (!['viral', 'notViral'].includes(action)) {
+			return res.status(400).send({ message: 'Invalid action' });
+		}
+		meme.bets[action].push({ user: u._id, amount });
+		u[`${action}Bets`].push(memeId);
+		await u.save();
+		await meme.save();
+		res.status(200).send({ message: 'Action successful', meme });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send(error);
+	}
 };
 
 const likeMeme = async (req, res) => {
-  try {
-    const { memeId } = req.params;
-    const meme = await Meme.findById(memeId);
-    if (!meme) {
-      return res.status(404).send({ message: "Meme not found" });
-    }
-    meme.likes.push(req.user._id);
-    const user = await User.findById(req.user._id);
-    user.likedMemes.push(memeId);
-    await user.save();
-    await meme.save();
-    res.status(200).send({ message: "Meme liked successfully", meme });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
+	try {
+		const { memeId } = req.params;
+		const meme = await Meme.findById(memeId);
+		if (!meme) {
+			return res.status(404).send({ message: 'Meme not found' });
+		}
+		meme.likes.push(req.user._id);
+		const user = await User.findById(req.user._id);
+		user.likedMemes.push(memeId);
+		await user.save();
+		await meme.save();
+		res.status(200).send({ message: 'Meme liked successfully', meme });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send(error);
+	}
+};
+
+const betMeme = async (req, res) => {
+	try {
+		const { email, amount, betType } = req.body;
+		const u = await User.findOne({ email });
+		if (!u) {
+			return res.status(404).send({ message: 'User not found' });
+		}
+		const { memeId } = req.params;
+		const meme = await Meme.findById(memeId);
+		if (!meme) {
+			return res.status(404).send({ message: 'Meme not found' });
+		}
+		if (!['viral', 'notViral'].includes(betType)) {
+			return res.status(400).send({ message: 'Invalid bet type' });
+		}
+		if (betType === 'viral') {
+			meme.bets.viral.push({ user: u._id, amount });
+		} else {
+			meme.bets.notViral.push({ user: u._id, amount });
+		}
+	} catch (error) {
+    console.log("error in betting meme")
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 module.exports = {
 	createAmeme,
 	getMemes,
 	getAMeme,
-  memeAction,
-    likeMeme,
+	memeAction,
+	likeMeme,
+	betMeme,
 };

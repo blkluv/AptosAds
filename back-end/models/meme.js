@@ -35,8 +35,18 @@ const memeSchema = new Schema(
 		},
 		bets: {
 			type: {
-				viral: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-				notViral: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+				viral: [
+					{
+						user: { type: Schema.Types.ObjectId, ref: 'User' },
+						amount: Number,
+					},
+				],
+				notViral: [
+					{
+						user: { type: Schema.Types.ObjectId, ref: 'User' },
+						amount: Number,
+					},
+				],
 			},
 		},
 	},
