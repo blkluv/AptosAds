@@ -40,8 +40,51 @@ const getAMeme = async (req, res) => {
 	}
 };
 
+const memeAction = async (req, res) => {
+    try {
+        const { memeId } = req.params;
+        const { action } = req.body;
+        const meme = await Meme.findById(memeId);
+        if (!meme) {
+            return res.status(404).send({ message: "Meme not found" });
+        }
+        if (!["viral", "notViral"].includes(action)) {
+            return res.status(400).send({ message: "Invalid action" });
+        }
+        meme.bets[action].push(req.user._id);
+        const user = await User.findById(req.user._id);
+        user[`${action}Bets`].push(memeId);
+        await user.save();
+        await meme.save();
+        res.status(200).send({ message: "Action successful", meme });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error);
+    }
+};
+
+const likeMeme = async (req, res) => {
+  try {
+    const { memeId } = req.params;
+    const meme = await Meme.findById(memeId);
+    if (!meme) {
+      return res.status(404).send({ message: "Meme not found" });
+    }
+    meme.likes.push(req.user._id);
+    const user = await User.findById(req.user._id);
+    user.likedMemes.push(memeId);
+    await user.save();
+    await meme.save();
+    res.status(200).send({ message: "Meme liked successfully", meme });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+};
 module.exports = {
 	createAmeme,
 	getMemes,
 	getAMeme,
+  memeAction,
+    likeMeme,
 };

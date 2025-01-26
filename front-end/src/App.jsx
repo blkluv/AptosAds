@@ -5,12 +5,14 @@ import { Toaster } from "react-hot-toast";
 import HomePage from "./pages/HomePage";
 import ListingPage from "./pages/ListingPage";
 import AuthDetails from "./pages/authDetails";
+import WalletConnectBtn from "./components/WalletConnectBtn";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Toaster />
+        <WalletConnectBtn />
         <Routes>
           {/* <Route path="/" element={<Home/>} /> */}
           <Route path="/" element={<HomePage/>} />

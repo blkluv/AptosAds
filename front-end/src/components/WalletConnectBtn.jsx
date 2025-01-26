@@ -28,7 +28,7 @@ const WalletConnectBtn = () => {
 	return (
 		<div
 			onClick={handleConnect}
-			className='p-2 rounded-xl cursor-pointer hover:bg-blue-600 bg-blue-500'
+			className='py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-600 bg-blue-500 w-fit absolute top-4 right-4 text-white transition-all'
 		>
 			Connect Wallet
 		</div>
