@@ -7,6 +7,10 @@ const memeSchema = new Schema(
       required: true,
       trim: true,
     },
+    description: {
+      type: String,
+      trim: true,
+    },
     media: {
       type: {
         link: String,
