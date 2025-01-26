@@ -34,6 +34,7 @@ const ListingPage = () => {
 		try {
 			const res = await axios.post('http://localhost:3000/api/memes', {
 				title,
+				description,
 				media: {
 					link: videoLink,
 					mediaType,

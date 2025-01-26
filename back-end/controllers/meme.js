@@ -3,10 +3,11 @@ const User = require('../models/user');
 
 const createAmeme = async (req, res) => {
 	try {
-		const { title, media, email } = req.body;
+		const { title, media, description, email } = req.body;
 		const user = await User.findOne({ email });
 		const meme = new Meme({
 			title,
+      description,
 			media,
 			creator: user._id,
 		});
