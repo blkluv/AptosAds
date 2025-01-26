@@ -5,7 +5,8 @@ const {
   getAMeme,
   memeAction,
   likeMeme,
-  betMeme
+  betMeme,
+  getUserBet
 } = require("../controllers/meme");
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.get("/:memeId", getAMeme);
 router.post("/action/:memeId", memeAction);
 router.post("/like/:memeId", likeMeme);
 router.post("/bet/:memeId", betMeme);
+router.get("/:memeId/user-bet/:userId", getUserBet);
 
 module.exports = router;

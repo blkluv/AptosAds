@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaHeart, FaChevronUp, FaShare, FaArrowDown } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import ViralToggle from "./ViralAction";
 const Reel = ({ media, title, description, likes, views, shares , likedOrNot, id}) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [viralStatus, setViralStatus] = useState(null);
@@ -92,20 +93,7 @@ const Reel = ({ media, title, description, likes, views, shares , likedOrNot, id
       </div>
 
       {/* Viral/Not Viral Buttons */}
-      <div className="absolute top-0  left-1/2 transform -translate-x-1/2 flex gap-4 mt-3 w-full px-4">
-        <button
-          onClick={() => handleViralClick("viral")}
-          className="bg-[#000000b0] text-white p-2 rounded-full flex-1"
-        >
-          Viral
-        </button>
-        <button
-          onClick={() => handleViralClick("notViral")}
-          className="bg-[#000000b0] text-white p-2 rounded-full flex-1"
-        >
-          Not Viral
-        </button>
-      </div>
+      <ViralToggle memeId={id}/>
 
       {/* Icons (Like, Comment, Share) */}
       <div className="absolute bottom-16 right-4 flex flex-col items-center gap-4">

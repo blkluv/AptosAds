@@ -98,28 +98,73 @@ const likeMeme = async (req, res) => {
 };
 
 const betMeme = async (req, res) => {
-	try {
-		const { email, amount, betType } = req.body;
-		const u = await User.findOne({ email });
-		if (!u) {
-			return res.status(404).send({ message: 'User not found' });
-		}
-		const { memeId } = req.params;
-		const meme = await Meme.findById(memeId);
-		if (!meme) {
-			return res.status(404).send({ message: 'Meme not found' });
-		}
-		if (!['viral', 'notViral'].includes(betType)) {
-			return res.status(400).send({ message: 'Invalid bet type' });
-		}
-		if (betType === 'viral') {
-			meme.bets.viral.push({ user: u._id, amount });
-		} else {
-			meme.bets.notViral.push({ user: u._id, amount });
-		}
-	} catch (error) {
-    console.log("error in betting meme")
-    return res.status(500).json({ message: "Internal server error" });
+  try {
+    const { email, amount, betType } = req.body;
+    console.log("deets", email, amount, betType);
+
+    if (!['viral', 'notViral'].includes(betType)) {
+      return res.status(400).send({ message: 'Invalid bet type' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    const { memeId } = req.params;
+    const meme = await Meme.findById(memeId);
+    if (!meme) {
+      return res.status(404).send({ message: 'Meme not found' });
+    }
+
+    // Ensure bets structure exists
+    if (!meme.bets) {
+      meme.bets = { viral: [], notViral: [] };
+    }
+
+    // Check if user has already placed a bet
+    const hasBetOnViral = meme.bets.viral.some((bet) => bet.user.equals(user._id));
+    const hasBetOnNotViral = meme.bets.notViral.some((bet) => bet.user.equals(user._id));
+
+    if (hasBetOnViral || hasBetOnNotViral) {
+      return res.status(400).send({ message: 'You have already placed a bet on this meme' });
+    }
+
+    // Place the bet
+    meme.bets[betType].push({ user: user._id, amount });
+    user[`${betType}Bets`] = user[`${betType}Bets`] || [];
+    user[`${betType}Bets`].push(memeId);
+
+    await user.save();
+    await meme.save();
+
+    return res.status(200).send({ message: 'Bet placed successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const getUserBet = async (req, res) => {
+  try {
+    const { memeId, userId } = req.params;
+
+    const meme = await Meme.findById(memeId);
+    if (!meme) {
+      return res.status(404).send({ message: 'Meme not found' });
+    }
+
+    const hasBetOnViral = meme.bets?.viral.some((bet) => bet.user.equals(userId));
+    const hasBetOnNotViral = meme.bets?.notViral.some((bet) => bet.user.equals(userId));
+
+    let placedBet = null;
+    if (hasBetOnViral) placedBet = "viral";
+    if (hasBetOnNotViral) placedBet = "notViral";
+
+    return res.status(200).send({ placedBet });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -130,4 +175,5 @@ module.exports = {
 	memeAction,
 	likeMeme,
 	betMeme,
+  getUserBet
 };
