@@ -5,6 +5,8 @@ const createAmeme = async (req, res) => {
 	try {
 		const { title, media, description, email } = req.body;
 		const user = await User.findOne({ email });
+   media = { link: "https://www.w3schools.com/html/html5_video.asp", mediaType: 'video' };
+
 		const meme = new Meme({
 			title,
 			description,
@@ -68,22 +70,31 @@ const memeAction = async (req, res) => {
 };
 
 const likeMeme = async (req, res) => {
-	try {
-		const { memeId } = req.params;
-		const meme = await Meme.findById(memeId);
-		if (!meme) {
-			return res.status(404).send({ message: 'Meme not found' });
-		}
-		meme.likes.push(req.user._id);
-		const user = await User.findById(req.user._id);
-		user.likedMemes.push(memeId);
-		await user.save();
-		await meme.save();
-		res.status(200).send({ message: 'Meme liked successfully', meme });
-	} catch (error) {
-		console.error(error);
-		res.status(500).send(error);
-	}
+  try {
+    const { memeId } = req.params;
+    const { email } = req.body;
+    console.log("memeId", memeId);
+
+    const meme = await Meme.findById(memeId);
+    if (!meme) {
+      return res.status(404).send({ message: "Meme not found" });
+    }
+    const user = await User.findOne({ email });
+    const userId = user._id;
+
+    console.log("user", user, user._id);
+    if (meme.likers.includes(userId)) {
+      return res.status(400).send({ message: "You have already liked this meme" });
+    }
+    meme.likers.push(userId);
+    user.likedMemes.push(memeId);
+    await user.save();
+    await meme.save();
+    res.status(200).send({ message: "Meme liked successfully", meme });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
 };
 
 const betMeme = async (req, res) => {

@@ -12,8 +12,8 @@ const router = express.Router();
 router.get("/", getMemes);
 router.post("/", createAmeme);
 router.get("/:memeId", getAMeme);
-router.post("/:memeId", memeAction);
-router.post("/:memeId", likeMeme);
+router.post("/action/:memeId", memeAction);
+router.post("/like/:memeId", likeMeme);
 router.post("/bet/:memeId", betMeme);
 
 module.exports = router;
