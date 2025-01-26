@@ -1,27 +1,52 @@
 import React, { useState } from "react";
 import { FaHeart, FaChevronUp, FaShare, FaArrowDown } from "react-icons/fa";
-
-const Reel = ({ videoSrc, title, description, likes, views, shares }) => {
+import axios from "axios";
+import { toast } from "react-hot-toast";
+const Reel = ({ media, title, description, likes, views, shares , likedOrNot, id}) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [viralStatus, setViralStatus] = useState(null);
+
+  const [liked, setLiked] = useState(likedOrNot || false);
+  const [likesCount, setLikesCount] = useState(likes);
+  
+  console.log("id", likedOrNot);
+  const handleLike = async () => {
+    if (liked) {
+      toast("You have already liked this post");
+      return;
+    }
+
+    try {
+      await axios.post(`http://localhost:3000/api/memes/like/${id}`,{
+        email: localStorage.getItem("email")
+      });
+      setLikesCount((prev) => prev + 1);
+      setLiked(true);
+    } catch (error) {
+      console.error("Error liking the post:", error);
+      toast.error("Failed to like the post");
+    }
+  };
+
 
   // Toggle drawer visibility
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  // Set Viral Status
   const handleViralClick = (status) => {
     setViralStatus(status);
   };
 
+  
+
+
   return (
-    <div className="relative flex flex-col h-screen w-[30vw] max-sm:w-[100vw] bg-gray-900">
-      {/* Video Section */}
+    <div className="relative flex flex-col h-screen w-[30vw] max-sm:w-[100vw] bg-gray-800">
       <div className="flex flex-col w-full h-[100%]">
         <video
           className="object-cover w-full h-full"
-          src={videoSrc}
+          src={media}
           autoPlay
           loop
           muted
@@ -86,10 +111,10 @@ const Reel = ({ videoSrc, title, description, likes, views, shares }) => {
       <div className="absolute bottom-16 right-4 flex flex-col items-center gap-4">
         {/* Like Button with Likes Count */}
         <div className="flex flex-col items-center">
-          <button className="p-2 rounded-full text-[#e82687] bg-gray-800 hover:bg-gray-700">
+          <button className="p-2 rounded-full text-[#e82687] bg-gray-800 hover:bg-gray-700" onClick={handleLike}>
             <FaHeart size={24} />
           </button>
-          <span className="text-sm text-white mt-2">{likes} Likes</span>
+          <span className="text-sm text-white mt-2">{likesCount} Likes</span>
         </div>
 
         {/* Share Button with Shares Count */}

@@ -48,6 +48,7 @@ const AuthDetails = () => {
       localStorage.setItem("email", data.email);
       localStorage.setItem("name", data.name);
       localStorage.setItem("wallet", walletAddress);
+      localStorage.setItem("userId", response.data.user._id);
       toast.success(response.data.message);
       navigate("/");
     } catch (error) {

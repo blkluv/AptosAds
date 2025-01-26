@@ -2,12 +2,13 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { constants } from "../config/constants";
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: constants.API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
 
 const apiHandler = async (method, url, data = null, customToastMessages) => {
   const toastMessages = {

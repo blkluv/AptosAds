@@ -1,84 +1,172 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Reel from "../components/Reel";
+import axios from "axios";
+
+export const Skeleton = ({ height, width , radius }) => (
+  <div
+    className={`bg-white/10 rounded-${radius} w-${width} h-${height} animate-pulse`}
+  />
+);
+
+
+
 
 const Player = () => {
-  // List of video data for the reels
-  const reelsData = [
-    {
-      videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
-      title: "Amazing sdfghjkl;kjhgfdsfghjklkjhgfdsVideo 1",
-      description: "This is an amazing video description 1.",
-      likes: 120,
-      views: 1500,
-      shares: 300,
-    },
-    {
-      videoSrc: "https://www.w3schools.com/html/movie.mp4",
-      title: "Amazing Video 2",
-      description: "This is an amazing video description 2.",
-      likes: 150,
-      views: 2000,
-      shares: 350,
-    },
-    {
-      videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
-      title: "Amazing Video 3",
-      description: "This is an amazing video description 3.",
-      likes: 180,
-      views: 2500,
-      shares: 400,
-    },
-    // Add more reels here as needed
-  ];
-
-  const [currentReel, setCurrentReel] = useState(0); // State to track the current reel
-  const containerRef = useRef(null); // Ref for the container holding all reels
-  const reelHeight = 600; // Height of each reel (adjust as necessary)
-
-  // Function to handle scroll and change the reel index
-  const handleScroll = () => {
-    const scrollPosition = containerRef.current.scrollTop;
-    const newReelIndex = Math.round(scrollPosition / reelHeight);
-
-    if (newReelIndex !== currentReel) {
-      setCurrentReel(newReelIndex);
-    }
-  };
+  const [reelsData, setReelsData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Adding event listener for scroll
-    const container = containerRef.current;
-    container.addEventListener("scroll", handleScroll);
+    const fetchReels = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/memes");
+  
+          setReelsData(res.data);
+         
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch reels");
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }
+        , 1000);
+      }
+    };
+
+    fetchReels();
+  }, []);
+
+  
+
+  const [currentReel, setCurrentReel] = useState(0);
+  const containerRef = useRef(null);
+  const observerRef = useRef(null);
+  const reelRefs = useRef([]);
+
+  // Dynamic height calculation
+  const calculateReelHeight = useCallback(() => {
+    return window.innerHeight;
+  }, []);
+
+  // Scroll to specific reel
+  const scrollToReel = useCallback((index) => {
+    if (reelRefs.current[index]) {
+      reelRefs.current[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+      setCurrentReel(index);
+    }
+  }, []);
+
+  // Intersection Observer setup
+  useEffect(() => {
+    const options = {
+      root: containerRef.current,
+      rootMargin: '0px',
+      threshold: 0.5
+    };
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = reelRefs.current.indexOf(entry.target);
+          if (index !== -1) {
+            setCurrentReel(index);
+          }
+        }
+      });
+    }, options);
+
+    // Observe reel elements
+    reelRefs.current.forEach(ref => {
+      if (ref) observerRef.current.observe(ref);
+    });
 
     return () => {
-      // Clean up the event listener
-      container.removeEventListener("scroll", handleScroll);
+      observerRef.current.disconnect();
     };
-  }, [currentReel]); // Re-run the effect when the current reel changes
+  }, [reelsData.length]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowDown' && currentReel < reelsData.length - 1) {
+        scrollToReel(currentReel + 1);
+      } else if (e.key === 'ArrowUp' && currentReel > 0) {
+        scrollToReel(currentReel - 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentReel, scrollToReel, reelsData.length]);
+
+  if (loading) {
+    return (
+      <div className="relative hide-scrollbar flex flex-col items-center h-screen md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth gap-4">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div key={index} className="w-full h-screen flex-shrink-0 border-8 border-transparent">
+            <Skeleton height="full" width="full" radius="lg" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+  
+
+  if(!loading && reelsData.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen space-y-4">
+        <h1 className="text-lg text-white bg-gray-800 px-24 py-14 rounded-lg">No Reels Found</h1>
+      </div>
+    );
+  }
 
   return (
-    <div
+    <div 
       ref={containerRef}
-      className="relative hide-scrollbar  flex items-center h-screen md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gray-500  text-pink-500 font-pixel"
+      className="relative hide-scrollbar flex items-center h-screen md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth"
     >
-      {/* Dynamically render reels */}
-      <div className="w-full  h-full flex flex-col">
+      <div className="w-full h-full flex flex-col">
         {reelsData.map((reel, index) => (
-          <div
-            key={index}
-            className={`w-full h-screen snap-start transition-transform duration-500 ${
-              index === currentReel ? "opacity-100" : "opacity-0"
-            }`}
+          <div 
+            key={reel.id || index}
+            ref={el => reelRefs.current[index] = el}
+            className={`
+              w-full h-screen snap-start transition-all duration-300 
+              ${index === currentReel 
+                ? "scale-100 opacity-100" 
+                : "scale-90 opacity-70"}
+            `}
           >
-            <Reel
-              videoSrc={reel.videoSrc}
+            <Reel 
+              media={reel.media.link}
               title={reel.title}
               description={reel.description}
-              likes={reel.likes}
+              likes={reel.likers.length}
               views={reel.views}
               shares={reel.shares}
+              likedOrNot={reel.likers.includes(localStorage.getItem("userId"))}
+              id={reel._id}
             />
           </div>
+        ))}
+      </div>
+
+      {/* Optional Navigation Indicators */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 space-y-2">
+        {reelsData.map((_, index) => (
+          <div 
+            key={index}
+            onClick={() => scrollToReel(index)}
+            className={`
+              w-3 h-3 rounded-full cursor-pointer
+              ${index === currentReel 
+                ? "bg-blue-500" 
+                : "bg-gray-300 hover:bg-gray-400"}
+            `}
+          />
         ))}
       </div>
     </div>

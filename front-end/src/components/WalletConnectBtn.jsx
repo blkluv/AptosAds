@@ -27,11 +27,9 @@ const WalletConnectBtn = () => {
 		const wallet = getAptosWallet();
 		try {
 			const response = await wallet.connect();
-			console.log(response);
 
 			const account = await wallet.account();
 			setWalletAddress(account.address);
-			console.log(account);
 
 			toast.success('Connected to wallet');
 			if (!localStorage.getItem('email')) {

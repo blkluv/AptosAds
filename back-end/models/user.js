@@ -19,24 +19,21 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Meme'
   },
-  likedMemes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Meme'
-    }
-  ],
-  viralBets: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Meme'
-    }
-  ],
-  notViralBets: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Meme'
-    }
-  ],
+  likedMemes: {
+    type: [mongoose.Schema.Types.ObjectId ],
+    ref: 'Meme',
+    default: []
+  },
+  viralBets : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Meme',
+    default: []
+  },
+  notViralBets : {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Meme',
+    default: []
+  },
   createdAt: {
     type: Date,
     default: Date.now

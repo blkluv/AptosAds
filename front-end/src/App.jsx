@@ -15,9 +15,9 @@ function App() {
         <WalletConnectBtn />
         <Routes>
           {/* <Route path="/" element={<Home/>} /> */}
-          <Route path="/" element={<HomePage/>} />
-          <Route path="/list" element={<ListingPage/>} />
-          <Route path="/auth/details" element={<AuthDetails/>} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/list" element={<ListingPage />} />
+          <Route path="/auth/details" element={<AuthDetails />} />
         </Routes>
       </BrowserRouter>
     </>
