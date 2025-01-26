@@ -45,7 +45,9 @@ const AuthDetails = () => {
           wallet: walletAddress,
         }
       );
-
+      localStorage.setItem("email", data.email);
+      localStorage.setItem("name", data.name);
+      localStorage.setItem("wallet", walletAddress);
       toast.success(response.data.message);
       navigate("/");
     } catch (error) {
