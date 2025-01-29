@@ -6,21 +6,21 @@ import HomePage from "./pages/HomePage";
 import ListingPage from "./pages/ListingPage";
 import AuthDetails from "./pages/authDetails";
 import WalletConnectBtn from "./components/WalletConnectBtn";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <>
+    <div className="pt-[60px] bg-gray-900">
       <BrowserRouter>
         <Toaster />
-        <WalletConnectBtn />
+        <Navbar />
         <Routes>
-          {/* <Route path="/" element={<Home/>} /> */}
           <Route path="/" element={<HomePage />} />
           <Route path="/list" element={<ListingPage />} />
           <Route path="/auth/details" element={<AuthDetails />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

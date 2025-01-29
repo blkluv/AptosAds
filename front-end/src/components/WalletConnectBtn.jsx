@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaWallet } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 const WalletConnectBtn = () => {
 	const [walletAddress, setWalletAddress] = useState('');
@@ -46,8 +47,9 @@ const WalletConnectBtn = () => {
 	return (
 		<div
 			onClick={handleConnect}
-			className='py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-600 bg-blue-500 w-fit absolute top-4 right-4 text-white transition-all'
+			className='py-2 max-md:text-sm max-md:text-px-1 flex items-center gap-2 px-4 rounded-lg cursor-pointer hover:bg-yellow-500 bg-yellow-400 w-fit text-black font-medium transition-all'
 		>
+			<FaWallet />
 			{walletAddress
 				? walletAddress.slice(0, 5) + '...' + walletAddress.slice(-3)
 				: 'Connect Wallet'}

@@ -3,7 +3,7 @@ import Player from "../components/Player";
 
 const HomePage = () => {
   return (
-    <div className="h-screen hide-scrollbar w-screen flex items-center justify-center bg-gray-900 text-pink-500 font-pixel">
+    <div className="h-[calc(100vh-60px)] hide-scrollbar overflow-y-hidden flex items-center justify-center bg-gray-900 text-yellow-400 font-pixel">
       <Player />
     </div>
   );

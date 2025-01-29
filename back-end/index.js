@@ -4,7 +4,7 @@ const userRouter = require("./routers/user");
 const memeRouter = require("./routers/meme");
 const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(cors());
 app.use(express.json());

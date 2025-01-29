@@ -28,19 +28,23 @@ const ListingPage = () => {
 			return;
 		}
 		if (!videoLink) {
-			setError({ ...error, videoLink: 'Video Link is required' });
+			setError({ ...error, videoLink: 'Media file is required' });
 			return;
 		}
 		try {
-			const res = await axios.post('http://localhost:3000/api/memes', {
-				title,
-				description,
-				media: {
-					link: videoLink,
-					mediaType,
-				},
-				email: localStorage.getItem('email'),
-			});
+			console.log(import.meta.env.VITE_SERVER_URI + '/api/memes');
+			const res = await axios.post(
+				import.meta.env.VITE_SERVER_URI + '/api/memes',
+				{
+					title,
+					description,
+					media: {
+						link: videoLink,
+						mediaType,
+					},
+					email: localStorage.getItem('email'),
+				}
+			);
 			toast.success('Meme uploaded successfully');
 		} catch (error) {
 			console.error(error);
@@ -51,8 +55,8 @@ const ListingPage = () => {
 	};
 
 	return (
-		<div className='min-h-screen bg-gray-900 text-white py-8 px-4'>
-			<h1 className='text-4xl font-bold text-center mb-8'>Create a New Reel</h1>
+		<div className='h-[calc(100vh-60px)] overflow-hidden bg-gray-900 text-white py-8 px-4'>
+			<h1 className='text-3xl text-yellow-400 font-bold text-center mb-8'>Upload a New Meme</h1>
 
 			{/* Form to create a new reel */}
 			<div className='max-w-3xl mx-auto bg-gray-800 rounded-lg shadow-lg p-8'>
@@ -61,7 +65,7 @@ const ListingPage = () => {
 					<div>
 						<label
 							htmlFor='title'
-							className='text-xl font-semibold text-pink-500'
+							className='text-lg mb-2 font-semibold text-yellow-500'
 						>
 							Title
 						</label>
@@ -70,8 +74,8 @@ const ListingPage = () => {
 							type='text'
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500'
-							placeholder='Enter the title of your reel'
+							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
+							placeholder='Enter the title for your meme'
 							required
 						/>
 						{error.title && <p className='text-red-500'>{error.title}</p>}
@@ -81,7 +85,7 @@ const ListingPage = () => {
 					<div>
 						<label
 							htmlFor='description'
-							className='text-xl font-semibold text-pink-500'
+							className='text-lg mb-2 font-semibold text-yellow-500'
 						>
 							Description
 						</label>
@@ -89,8 +93,8 @@ const ListingPage = () => {
 							id='description'
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500'
-							placeholder='Enter a description for your reel'
+							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
+							placeholder='Enter a description for your meme'
 							rows='4'
 							required
 						/>
@@ -103,16 +107,17 @@ const ListingPage = () => {
 					<div>
 						<label
 							htmlFor='videoLink'
-							className='text-xl font-semibold text-pink-500'
+							className='text-lg mb-2 font-semibold text-yellow-500'
 						>
-							Video Link
+							Upload Media
 						</label>
+						<p className='text-sm text-gray-300 py-2 px-1'>Type: Image or Video</p>
 						<FileUploaderRegular
 							sourceList='local, url, camera, gdrive'
-							classNameUploader='uc-dark uc-red'
-							pubkey='50d2f5ade39c4b91e3e6'
+							classNameUploader='uc-dark uc-orange'
+							pubkey='63c390ba99b5cdeed23a'
 							multiple={false}
-							accept='video/*, image/*'
+							accept='image/*, video/*'
 							onFileUploadSuccess={(e) => {
 								setMediaType(e.isImage ? 'image' : 'video');
 								setVideoLink(e.cdnUrl);
@@ -121,25 +126,31 @@ const ListingPage = () => {
 						{error.videoLink && (
 							<p className='text-red-500'>{error.videoLink}</p>
 						)}
-						{/* <p>OR</p>
-						<input
-							id='videoLink'
-							type='url'
-							value={videoLink}
-							onChange={(e) => setVideoLink(e.target.value)}
-							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500'
-							placeholder='Enter the URL of your video'
-							required
-						/> */}
+						{videoLink && (
+							<div className='flex items-center space-x-2'>
+								{mediaType === 'image' ? (
+									<img
+										src={videoLink}
+										alt='Uploaded Image'
+										className='w-1/3 rounded-xl my-2'
+									/>
+								) : (
+									<video
+										src={videoLink}
+										controls
+										className='w-1/3 rounded-xl my-2'
+									></video>
+								)}
+							</div>
+						)}
 					</div>
 
-					{/* Submit Button */}
-					<div className='flex justify-center'>
+					<div className='w-full'>
 						<button
 							type='submit'
-							className='px-6 py-2 bg-pink-600 hover:bg-pink-700 rounded-full text-white text-lg font-medium'
+							className='px-6 py-2 w-full bg-yellow-400 hover:bg-yellow-500 rounded-lg text-black text-lg font-medium'
 						>
-							Create Reel
+							Upload
 						</button>
 					</div>
 				</form>
