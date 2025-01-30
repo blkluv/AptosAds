@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/memes';
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/AptosOdds';
 const connectDB = async () => {
 	try {
 		await mongoose.connect(mongoUri);
