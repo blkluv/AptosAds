@@ -10,6 +10,7 @@ const Player = () => {
 	const [reelsData, setReelsData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [currentReel, setCurrentReel] = useState(0);
+	const [activeReel, setActiveReel] = useState(null);
 
 	const containerRef = useRef(null);
 	const observerRef = useRef(null);
@@ -57,6 +58,7 @@ const Player = () => {
 					const index = reelRefs.current.indexOf(entry.target);
 					if (index !== -1) {
 						setCurrentReel(index);
+						setActiveReel(index); // Update active reel
 					}
 				}
 			});
@@ -120,7 +122,6 @@ const Player = () => {
 						className={`w-full h-[90vh] snap-center flex items-center mb-2 justify-center transition-all duration-300
 							${index === currentReel ? 'scale-100 opacity-100' : 'scale-100 opacity-80'}
 						`}
-						onTouchStart={(e) => e.preventDefault()} // Prevent unwanted touch scroll inside the meme
 					>
 						<Reel
 							media={reel.media.link}
@@ -132,6 +133,8 @@ const Player = () => {
 							shares={reel.shares}
 							likedOrNot={reel.likers.includes(localStorage.getItem('userId'))}
 							id={reel._id}
+							activeReel={activeReel}
+							setActiveReel={setActiveReel}
 						/>
 					</div>
 				))}
