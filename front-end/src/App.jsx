@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import ListingPage from "./pages/ListingPage";
 import AuthDetails from "./pages/authDetails";
 import Navbar from "./components/Navbar";
+import UserDashboard from "./pages/DashBoard";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/list" element={<ListingPage />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/auth/details" element={<AuthDetails />} />
         </Routes>
       </BrowserRouter>

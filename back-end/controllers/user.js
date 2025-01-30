@@ -3,7 +3,6 @@ const User = require("../models/user");
 const handleAuth = async (req, res) => {
   try {
     const { name, email, wallet } = req.body;
-    console.log(req.body);
     const user = await User.findOne({ email });
     if (user) {
       return res
