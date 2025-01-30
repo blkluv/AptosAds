@@ -31,8 +31,9 @@ const ViralToggle = ({ memeId }) => {
 				toast.error(`You have already placed a bet on ${selectedBet}`);
 				return;
 			}
-
-			const amount = 10;
+			const a = prompt('Enter the amount to bet (in $)');
+			if (!a) return;
+			const amount = parseInt(a, 10);
 			await axios.post(
 				`${import.meta.env.VITE_SERVER_URI}/api/memes/bet/${memeId}`,
 				{
@@ -54,7 +55,9 @@ const ViralToggle = ({ memeId }) => {
 		<div className='absolute top-0 left-1/2 transform -translate-x-1/2 flex gap-4 mt-4 w-full px-4'>
 			<button
 				className={`p-2 rounded-full flex-1 text-white ${
-					selectedBet === 'viral' ? 'bg-[#0db498]' : 'border border-[#afaeae] bg-slate-950'
+					selectedBet === 'viral'
+						? 'bg-[#0db498]'
+						: 'border border-[#afaeae] bg-slate-950'
 				}`}
 				onClick={() => placeBet('viral')}
 				disabled={!!selectedBet}
@@ -63,7 +66,9 @@ const ViralToggle = ({ memeId }) => {
 			</button>
 			<button
 				className={`p-2 rounded-full flex-1 text-white ${
-					selectedBet === 'notViral' ? 'bg-[#d01138]' : 'border border-[#afaeae] bg-slate-950'
+					selectedBet === 'notViral'
+						? 'bg-[#d01138]'
+						: 'border border-[#afaeae] bg-slate-950'
 				}`}
 				onClick={() => placeBet('notViral')}
 				disabled={!!selectedBet}
