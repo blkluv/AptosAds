@@ -21,7 +21,7 @@ const createAmeme = async (req, res) => {
 
 const getMemes = async (_req, res) => {
 	try {
-		const memes = await Meme.find().populate('creator', 'username _id').exec();
+		const memes = await Meme.find().populate('creator');
 		res.status(200).send(memes);
 	} catch (error) {
 		console.error(error);
