@@ -71,7 +71,6 @@ const likeMeme = async (req, res) => {
 	try {
 		const { memeId } = req.params;
 		const { email } = req.body;
-		console.log('memeId', memeId);
 
 		const meme = await Meme.findById(memeId);
 		if (!meme) {
@@ -80,7 +79,6 @@ const likeMeme = async (req, res) => {
 		const user = await User.findOne({ email });
 		const userId = user._id;
 
-		console.log('user', user, user._id);
 		if (meme.likers.includes(userId)) {
 			return res
 				.status(400)
@@ -100,7 +98,6 @@ const likeMeme = async (req, res) => {
 const betMeme = async (req, res) => {
 	try {
 		const { email, amount, betType } = req.body;
-		console.log('deets', email, amount, betType);
 
 		if (!['viral', 'notViral'].includes(betType)) {
 			return res.status(400).send({ message: 'Invalid bet type' });

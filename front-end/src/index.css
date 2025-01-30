@@ -9,3 +9,8 @@
 .uploadcare-widget uc-simple-btn {
 	@apply w-full;
 }
+
+*{
+	scrollbar-width: none;
+	scroll-behavior: smooth;
+}
