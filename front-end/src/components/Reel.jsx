@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaHeart, FaChevronUp, FaShare } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { FaHandHoldingHeart } from "react-icons/fa";
 import ViralToggle from "./ViralAction";
 
 const Reel = ({
@@ -128,13 +129,13 @@ const Reel = ({
       {/* Description Drawer Section */}
       <div
         className={`transition-all duration-300 ease-in-out ${
-          drawerOpen ? "h-[50%]" : "h-[8%]"
+          drawerOpen ? "h-[50%]" : "h-[7%]"
         } bg-[#000000b5] text-white p-4 absolute bottom-0 left-0 w-full rounded-t-2xl`}
       >
         {/* Title */}
         <h1
-          className={`text-xl font-semibold text-white mb-2 ${
-            drawerOpen ? "absolute top-2" : "relative w-[70%] truncate"
+          className={`text-lg  font-semibold text-white mb-2 ${
+            drawerOpen ? "absolute top-2" : "relative w-[90%] truncate"
           }`}
         >
           {title}
@@ -143,17 +144,17 @@ const Reel = ({
         {/* Description */}
         <p
           className={`text-base text-gray-300 transition-all duration-300 ease-in-out ${
-            drawerOpen ? "h-[80%] mt-7 overflow-auto" : "h-0 overflow-hidden"
+            drawerOpen ? "h-[80%]  w-[87%]  mt-7 overflow-auto" : "h-0 overflow-hidden"
           }`}
         >
           {description}
         </p>
 
         {/* Arrow to toggle drawer */}
-        <div className="absolute bottom-7 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-11 left-1/2 transform -translate-x-1/2">
           <button
             onClick={toggleDrawer}
-            className="bg-transparent text-white rounded-full"
+            className="bg-transparent text-[#eee31a] rounded-full"
           >
             <FaChevronUp
               size={20}
@@ -171,20 +172,27 @@ const Reel = ({
         {/* Like Button with Likes Count */}
         <div className="flex flex-col items-center">
           <button
-            className="p-2 rounded-full text-yellow-500 bg-gray-800 hover:bg-gray-700"
+            className="p-2 rounded-full border border-[#eee31a] text-white bg-slate-900 hover:bg-gray-700"
             onClick={handleLike}
           >
-            <FaHeart size={24} />
+            <FaHeart size={16} />
           </button>
-          <span className="text-sm text-white mt-2">{likesCount} Likes</span>
+          <span className="text-xs text-white mt-2">{likesCount} Likes</span>
         </div>
 
         {/* Share Button with Shares Count */}
         <div className="flex flex-col items-center">
-          <button className="p-2 rounded-full text-white bg-gray-800 hover:bg-gray-700">
-            <FaShare size={24} />
+          <button className="p-2 rounded-full border border-[#eee31a] text-white bg-slate-900 hover:bg-gray-700">
+            <FaShare size={15} />
           </button>
-          <span className="text-sm text-white mt-2">{shares} Shares</span>
+          <span className="text-xs text-white mt-2">{shares} Shares</span>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <button className="p-2 rounded-full border border-[#eee31a] text-white bg-slate-900 hover:bg-gray-700">
+            <FaHandHoldingHeart size={15} />
+          </button>
+          <span className="text-xs text-white mt-2">{shares} Support</span>
         </div>
       </div>
     </div>
