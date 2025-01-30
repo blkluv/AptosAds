@@ -3,57 +3,52 @@ import Reel from '../components/Reel';
 import axios from 'axios';
 
 export const Skeleton = ({ height, width, radius }) => (
-	<div
-		className={`bg-white/10 rounded-${radius} w-${width} h-${height} animate-pulse`}
-	/>
+	<div className={`bg-white/10 rounded-${radius} w-${width} h-${height} animate-pulse`} />
 );
 
 const Player = () => {
 	const [reelsData, setReelsData] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [currentReel, setCurrentReel] = useState(0);
 
+	const containerRef = useRef(null);
+	const observerRef = useRef(null);
+	const reelRefs = useRef([]);
+
+	// Fetch reels from API
 	useEffect(() => {
 		const fetchReels = async () => {
 			try {
-				const res = await axios.get(
-					import.meta.env.VITE_SERVER_URI + '/api/memes'
-				);
+				const res = await axios.get(import.meta.env.VITE_SERVER_URI + '/api/memes');
 				setReelsData(res.data);
 			} catch (error) {
 				console.error(error);
 				toast.error('Failed to fetch reels');
 			} finally {
-				setTimeout(() => {
-					setLoading(false);
-				}, 1000);
+				setTimeout(() => setLoading(false), 1000);
 			}
 		};
 
 		fetchReels();
 	}, []);
 
-	const [currentReel, setCurrentReel] = useState(0);
-	const containerRef = useRef(null);
-	const observerRef = useRef(null);
-	const reelRefs = useRef([]);
-
-	// Scroll to specific reel
+	// Scroll to a specific reel
 	const scrollToReel = useCallback((index) => {
 		if (reelRefs.current[index]) {
 			reelRefs.current[index].scrollIntoView({
 				behavior: 'smooth',
-				block: 'start',
+				block: 'center',
 			});
 			setCurrentReel(index);
 		}
 	}, []);
 
-	// Intersection Observer setup
+	// Intersection Observer to track which reel is in view
 	useEffect(() => {
 		const options = {
 			root: containerRef.current,
 			rootMargin: '0px',
-			threshold: 0.5,
+			threshold: 0.8, // Higher threshold ensures full meme is visible before switching
 		};
 
 		observerRef.current = new IntersectionObserver((entries) => {
@@ -67,17 +62,14 @@ const Player = () => {
 			});
 		}, options);
 
-		// Observe reel elements
 		reelRefs.current.forEach((ref) => {
 			if (ref) observerRef.current.observe(ref);
 		});
 
-		return () => {
-			observerRef.current.disconnect();
-		};
+		return () => observerRef.current.disconnect();
 	}, [reelsData.length]);
 
-	// Keyboard navigation
+	// Keyboard navigation (Arrow Up/Down)
 	useEffect(() => {
 		const handleKeyDown = (e) => {
 			if (e.key === 'ArrowDown' && currentReel < reelsData.length - 1) {
@@ -91,25 +83,24 @@ const Player = () => {
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, [currentReel, scrollToReel, reelsData.length]);
 
+	// Skeleton loader
 	if (loading) {
 		return (
-			<div className='relative hide-scrollbar flex flex-col items-center h-[94%] md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth gap-4'>
+			<div className="relative hide-scrollbar flex flex-col items-center h-[94%] md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth gap-4">
 				{Array.from({ length: 5 }).map((_, index) => (
-					<div
-						key={index}
-						className='w-full h-full flex-shrink-0 border-8 border-transparent'
-					>
-						<Skeleton height='full' width='full' radius='lg' />
+					<div key={index} className="w-full h-full flex-shrink-0 border-8 border-transparent">
+						<Skeleton height="full" width="full" radius="lg" />
 					</div>
 				))}
 			</div>
 		);
 	}
 
+	// No memes found message
 	if (!loading && reelsData.length === 0) {
 		return (
-			<div className='flex flex-col justify-center items-center h-[94%] space-y-4'>
-				<h1 className='text-lg text-black bg-yellow-400 px-24 py-14 rounded-lg'>
+			<div className="flex flex-col justify-center items-center h-[94%] space-y-4">
+				<h1 className="text-lg text-black bg-yellow-400 px-24 py-14 rounded-lg">
 					No Memes 🐵 Found!!!
 				</h1>
 			</div>
@@ -119,21 +110,17 @@ const Player = () => {
 	return (
 		<div
 			ref={containerRef}
-			className='relative h-full rounded-lg hide-scrollbar flex items-center md:w-[35vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth'
+			className="relative h-[90vh] w-screen hide-scrollbar flex items-center md:w-[35vw] overflow-y-auto snap-y snap-mandatory scroll-smooth"
 		>
-			<div className='w-full h-full flex flex-col'>
+			<div className="w-full h-full flex flex-col">
 				{reelsData.map((reel, index) => (
 					<div
 						key={reel.id || index}
 						ref={(el) => (reelRefs.current[index] = el)}
-						className={`
-              w-full snap-start transition-all duration-300 
-              ${
-								index === currentReel
-									? 'scale-100 opacity-100'
-									: 'scale-90 opacity-70'
-							}
-            `}
+						className={`w-full h-[90vh] snap-center flex items-center mb-2 justify-center transition-all duration-300
+							${index === currentReel ? 'scale-100 opacity-100' : 'scale-100 opacity-80'}
+						`}
+						onTouchStart={(e) => e.preventDefault()} // Prevent unwanted touch scroll inside the meme
 					>
 						<Reel
 							media={reel.media.link}
@@ -147,24 +134,6 @@ const Player = () => {
 							id={reel._id}
 						/>
 					</div>
-				))}
-			</div>
-
-			{/* Optional Navigation Indicators */}
-			<div className='fixed right-4 top-1/2 transform -translate-y-1/2 space-y-2'>
-				{reelsData.map((_, index) => (
-					<div
-						key={index}
-						onClick={() => scrollToReel(index)}
-						className={`
-              w-3 h-3 rounded-full cursor-pointer
-              ${
-								index === currentReel
-									? 'bg-blue-500'
-									: 'bg-gray-300 hover:bg-gray-400'
-							}
-            `}
-					/>
 				))}
 			</div>
 		</div>

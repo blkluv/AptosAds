@@ -52,18 +52,18 @@ const Reel = ({
 	};
 
 	return (
-		<div className='relative rounded-lg flex flex-col h-[calc(100vh-60px)] w-[30vw] max-sm:w-[100vw] bg-gray-800'>
+		<div className='relative rounded-none flex flex-col h-[89vh] w-[30vw] max-sm:w-[100vw] bg-red-800'>
 			<div className='flex flex-col h-full w-full'>
 				{type === 'video' ? (
 					<video
-						className='object-cover w-full h-full rounded-lg'
+						className='object-cover w-full h-full rounded-none'
 						src={media}
 						autoPlay
 						loop
 						muted
 					/>
 				) : (
-					<img className='object-cover w-full h-full rounded-lg' src={media} />
+					<img className='object-cover w-full h-full rounded-none' src={media} />
 				)}
 			</div>
 

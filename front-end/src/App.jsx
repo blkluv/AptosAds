@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="pt-[60px] bg-gray-900">
+    <div className="pt-[10vh] bg-gray-900">
       <BrowserRouter>
         <Toaster />
         <Navbar />
