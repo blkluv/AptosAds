@@ -14,6 +14,7 @@ const ListingPage = () => {
 		description: null,
 		videoLink: null,
 	});
+	const [loading, setLoading] = useState(false);
 	const [mediaType, setMediaType] = useState('video');
 
 	// Handle form submission
@@ -32,6 +33,7 @@ const ListingPage = () => {
 			return;
 		}
 		try {
+			setLoading(true);
 			console.log(import.meta.env.VITE_SERVER_URI + '/api/memes');
 			const res = await axios.post(
 				import.meta.env.VITE_SERVER_URI + '/api/memes',
@@ -49,17 +51,22 @@ const ListingPage = () => {
 		} catch (error) {
 			console.error(error);
 			toast.error('Failed to upload meme');
+		} finally {
+			setLoading(false);
+			setTitle('');
+			setDescription('');
+			setVideoLink('');
 		}
-
 		// Add further handling logic for submitting the reel (e.g., saving it to the server, blockchain, etc.)
 	};
 
 	return (
-		<div className='h-[calc(100vh-60px)] overflow-hidden bg-gray-900 text-white py-8 px-4'>
-			<h1 className='text-3xl text-yellow-400 font-bold text-center mb-8'>Upload a New Meme</h1>
-
+		<div className='min-h-[calc(100vh-60px)] bg-gray-900 text-white py-8 px-4'>
 			{/* Form to create a new reel */}
 			<div className='max-w-3xl mx-auto bg-gray-800 rounded-lg shadow-lg p-8'>
+				<h1 className='text-3xl text-yellow-400 font-bold text-center mb-8'>
+					Upload a New Meme
+				</h1>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					{/* Title Input */}
 					<div>
@@ -74,7 +81,7 @@ const ListingPage = () => {
 							type='text'
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
+							className='w-full p-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
 							placeholder='Enter the title for your meme'
 							required
 						/>
@@ -93,10 +100,11 @@ const ListingPage = () => {
 							id='description'
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							className='w-full p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
+							className='w-full p-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
 							placeholder='Enter a description for your meme'
-							rows='4'
+							rows='6'
 							required
+							maxLength={500}
 						/>
 						{error.description && (
 							<p className='text-red-500'>{error.description}</p>
@@ -104,14 +112,14 @@ const ListingPage = () => {
 					</div>
 
 					{/* Video Link Input */}
-					<div>
+					<div className='uploadcare-widget'>
 						<label
 							htmlFor='videoLink'
 							className='text-lg mb-2 font-semibold text-yellow-500'
 						>
 							Upload Media
 						</label>
-						<p className='text-sm text-gray-300 py-2 px-1'>Type: Image or Video</p>
+						<p className='text-sm text-gray-300 pb-3'>Type: Image or Video</p>
 						<FileUploaderRegular
 							sourceList='local, url, camera, gdrive'
 							classNameUploader='uc-dark uc-orange'
@@ -148,9 +156,13 @@ const ListingPage = () => {
 					<div className='w-full'>
 						<button
 							type='submit'
-							className='px-6 py-2 w-full bg-yellow-400 hover:bg-yellow-500 rounded-lg text-black text-lg font-medium'
+							className='px-6 py-2 w-full text-center bg-yellow-400 hover:bg-yellow-500 rounded-lg text-black text-lg font-medium'
 						>
-							Upload
+							{loading ? (
+								<img className='animate-spin mx-auto' width={30} src='https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png' />
+							) : (
+								'Publish'
+							)}
 						</button>
 					</div>
 				</form>

@@ -47,7 +47,7 @@ const WalletConnectBtn = () => {
 	return (
 		<div
 			onClick={handleConnect}
-			className='py-2 max-md:text-sm max-md:text-px-1 flex items-center gap-2 px-4 rounded-lg cursor-pointer hover:bg-yellow-500 bg-yellow-400 w-fit text-black font-medium transition-all'
+			className='py-2 max-md:py-1.5 max-md:text-[14px] max-md:text-sm max-md:text-px-1 flex items-center gap-2 max-md:gap-1 px-4 max-md:px-1 rounded-lg cursor-pointer hover:bg-yellow-500 bg-yellow-400 w-fit text-black font-medium transition-all'
 		>
 			<FaWallet />
 			{walletAddress

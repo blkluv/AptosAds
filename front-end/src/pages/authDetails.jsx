@@ -112,7 +112,7 @@ const AuthDetails = () => {
                     ${
 											errors.name
 												? 'border-red-500 focus:ring-2 focus:ring-red-500'
-												: 'border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50'
+												: 'border-transparent focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50'
 										}
                   `}
 								/>
@@ -164,7 +164,7 @@ const AuthDetails = () => {
                     ${
 											errors.email
 												? 'border-red-500 focus:ring-2 focus:ring-red-500'
-												: 'border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50'
+												: 'border-transparent focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50'
 										}
                   `}
 								/>
@@ -205,12 +205,12 @@ const AuthDetails = () => {
 									id='wallet'
 									value={walletAddress}
 									readOnly
-									className='w-full px-4 py-3 pr-10 bg-gray-700 text-white rounded-lg border-2 border-transparent focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50'
+									className='w-full px-4 py-3 pr-10 bg-gray-700 text-white rounded-lg border-2 border-transparent focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/50'
 								/>
 								<button
 									type='button'
 									onClick={copyToClipboard}
-									className='absolute inset-y-0 right-0 px-3 flex items-center text-blue-500 hover:text-blue-700'
+									className='absolute inset-y-0 right-0 px-3 flex items-center text-yellow-500 hover:text-yellow-700'
 								>
 									{copied ? <IoCheckmarkDoneCircleSharp /> : <FaRegCopy />}
 								</button>
@@ -231,7 +231,7 @@ const AuthDetails = () => {
     ${
 			isSubmitting
 				? 'bg-gray-600 cursor-not-allowed'
-				: 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+				: 'bg-yellow-600 hover:bg-yellow-700 hover:shadow-lg focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50'
 		}
   `}
 						>

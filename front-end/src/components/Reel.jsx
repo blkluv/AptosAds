@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaHeart, FaChevronUp, FaShare, FaArrowDown } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaHeart, FaChevronUp, FaShare } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import ViralToggle from './ViralAction';
@@ -12,6 +12,7 @@ const Reel = ({
 	shares,
 	likedOrNot,
 	id,
+	type,
 }) => {
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [viralStatus, setViralStatus] = useState(null);
@@ -51,15 +52,19 @@ const Reel = ({
 	};
 
 	return (
-		<div className='relative flex flex-col h-[calc(100vh-65px)] w-[30vw] max-sm:w-[100vw] bg-gray-800'>
-			<div className='flex flex-col w-full'>
-				<video
-					className='object-cover w-full h-full'
-					src={media}
-					autoPlay
-					loop
-					muted
-				></video>
+		<div className='relative rounded-lg flex flex-col h-[calc(100vh-60px)] w-[30vw] max-sm:w-[100vw] bg-gray-800'>
+			<div className='flex flex-col h-full w-full'>
+				{type === 'video' ? (
+					<video
+						className='object-cover w-full h-full rounded-lg'
+						src={media}
+						autoPlay
+						loop
+						muted
+					/>
+				) : (
+					<img className='object-cover w-full h-full rounded-lg' src={media} />
+				)}
 			</div>
 
 			{/* Description Drawer Section */}

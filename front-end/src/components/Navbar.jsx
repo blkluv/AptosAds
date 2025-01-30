@@ -16,10 +16,10 @@ const Navbar = () => {
 					<h1 className='text-2xl max-md:text-lg text-yellow-400'>Odds</h1>
 				</div>
 			</Link>
-			<div className='flex items-center gap-4'>
+			<div className='flex items-center max-md:gap-2 gap-4'>
 				<Link
 					to={'/list'}
-					className='text-yellow-400 max-md:text-sm max-md:text-px-1 hover:bg-yellow-500 hover:border-none hover:text-black flex items-baseline gap-2 text-lg border-2 border-yellow-400 rounded-lg py-1.5 px-4'
+					className='text-yellow-400 max-md:text-sm max-md:text-px-1 hover:bg-yellow-500 hover:border-none hover:text-black flex items-baseline gap-2 max-md:gap-1 text-lg border-2 border-yellow-400 rounded-lg py-1.5 px-4'
 				>
 					<FaUpload />
 					Upload

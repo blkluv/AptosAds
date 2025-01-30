@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Reel from '../components/Reel';
 import axios from 'axios';
 
@@ -36,11 +36,6 @@ const Player = () => {
 	const containerRef = useRef(null);
 	const observerRef = useRef(null);
 	const reelRefs = useRef([]);
-
-	// Dynamic height calculation
-	const calculateReelHeight = useCallback(() => {
-		return window.innerHeight;
-	}, []);
 
 	// Scroll to specific reel
 	const scrollToReel = useCallback((index) => {
@@ -124,7 +119,7 @@ const Player = () => {
 	return (
 		<div
 			ref={containerRef}
-			className='relative hide-scrollbar flex items-center rounded-lg md:w-[30vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth'
+			className='relative h-full rounded-lg hide-scrollbar flex items-center md:w-[35vw] overflow-y-scroll snap-y snap-mandatory scroll-smooth'
 		>
 			<div className='w-full h-full flex flex-col'>
 				{reelsData.map((reel, index) => (
@@ -142,6 +137,7 @@ const Player = () => {
 					>
 						<Reel
 							media={reel.media.link}
+							type={reel.media.mediaType}
 							title={reel.title}
 							description={reel.description}
 							likes={reel.likers.length}
