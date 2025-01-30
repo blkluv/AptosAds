@@ -115,11 +115,14 @@ const ListingPage = () => {
 					<div className='uploadcare-widget'>
 						<label
 							htmlFor='videoLink'
-							className='text-lg mb-2 font-semibold text-yellow-500'
+							className='text-lg mb-1 font-semibold items-baseline gap-1 text-yellow-500 flex'
 						>
 							Upload Media
+							<p className='text-white text-sm'>(Image/Video)</p>
 						</label>
-						<p className='text-sm text-gray-300 pb-3'>Type: Image or Video</p>
+						<p className='text-sm text-gray-300 pb-3'>
+							Note: Aspect ratio should be 9:16
+						</p>
 						<FileUploaderRegular
 							sourceList='local, url, camera, gdrive'
 							classNameUploader='uc-dark uc-orange'
@@ -159,7 +162,11 @@ const ListingPage = () => {
 							className='px-6 py-2 w-full text-center bg-yellow-400 hover:bg-yellow-500 rounded-lg text-black text-lg font-medium'
 						>
 							{loading ? (
-								<img className='animate-spin mx-auto' width={30} src='https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png' />
+								<img
+									className='animate-spin mx-auto'
+									width={30}
+									src='https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png'
+								/>
 							) : (
 								'Publish'
 							)}
