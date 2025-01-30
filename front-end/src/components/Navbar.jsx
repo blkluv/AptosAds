@@ -6,7 +6,7 @@ import { User } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="px-5 max-md:px-1 flex backdrop-blur-lg items-center h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-2 border-yellow-500">
+    <nav className="px-5 primary-font max-md:px-1 flex backdrop-blur-lg items-center h-[10vh] justify-between fixed top-0 left-0 right-0 z-10 border-b-2 border-yellow-500">
       <Link to={"/"} className="flex items-center gap-2 p-2">
         <img
           width={50}

@@ -164,7 +164,7 @@ const Reel = ({
 			>
 				{/* Title */}
 				<h1
-					className={`text-lg  font-semibold text-white mb-2 ${
+					className={`text-lg  font-semibold text-white primary-font mb-2 ${
 						drawerOpen ? 'absolute top-2' : 'relative w-[90%] truncate'
 					}`}
 				>

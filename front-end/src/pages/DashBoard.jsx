@@ -105,7 +105,7 @@ const UserDashboard = () => {
     });
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6">
+    <div className="min-h-screen primary-font bg-gray-900 p-6">
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-white mb-4">
           Hello{" "}

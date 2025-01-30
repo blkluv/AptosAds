@@ -10,7 +10,15 @@
 	@apply w-full;
 }
 
-*{
+* {
 	scrollbar-width: none;
 	scroll-behavior: smooth;
+}
+
+.primary-font {
+	font-family: 'Pixelify Sans', sans-serif;
+}
+
+.secondary-font {
+	font-family: 'Nunito', serif;
 }
