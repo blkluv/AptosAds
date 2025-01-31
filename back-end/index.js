@@ -3,12 +3,21 @@ const connectDB = require("./config/db");
 const userRouter = require("./routers/user");
 const memeRouter = require("./routers/meme");
 const cors = require("cors");
-const app = express();
 const port = 5000;
 
-app.use(cors());
-app.use(express.json());
+const app = express();
+app.use(
+  cors({
+    origin: [
+      'https://aptosodds.vercel.app',
+      'http://localhost:5173',
+      'http://localhost:5000'
+    ],
+    credentials: true
+  })
+);
 connectDB();
+app.use(express.json());
 
 app.use("/api/memes", memeRouter);
 app.use("/api/users", userRouter);
