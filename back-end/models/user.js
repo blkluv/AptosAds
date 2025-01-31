@@ -16,8 +16,9 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   createdMemes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Meme'
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Meme',
+    default: []
   },
   likedMemes: {
     type: [mongoose.Schema.Types.ObjectId ],

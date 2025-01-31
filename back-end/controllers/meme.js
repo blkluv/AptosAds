@@ -11,7 +11,12 @@ const createAmeme = async (req, res) => {
 			media,
 			creator: user._id,
 		});
+
+		const userMemes = user.createdMemes;
+		userMemes.push(meme._id);
+
 		await meme.save();
+		await user.save();
 		res.status(201).send({ message: 'Meme created successfully', meme });
 	} catch (error) {
 		console.error(error);

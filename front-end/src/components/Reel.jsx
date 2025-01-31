@@ -204,7 +204,7 @@ const Reel = ({
 				{/* Like Button with Likes Count */}
 				<div className='flex flex-col items-center'>
 					<button
-						className='p-2 rounded-full border border-[#eee31a] text-white bg-slate-900 hover:bg-gray-700'
+						className={`p-2 rounded-full border border-[#eee31a] text-white bg-slate-900 hover:bg-gray-700 ${ liked ? 'text-yellow-500' : ''}`}
 						onClick={handleLike}
 					>
 						<FaHeart size={16} />

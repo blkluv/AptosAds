@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Search,
   Trophy,
@@ -7,9 +7,11 @@ import {
   Heart,
   LucideXCircle,
   CheckCircle2Icon,
+  Loader2,
 } from "lucide-react";
 import { MemesGrid } from "../components/MemeGrid";
 import { BetsGrid } from "../components/BetsGrid";
+import axios from "axios";
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState("memes");
@@ -17,70 +19,78 @@ const UserDashboard = () => {
   const [activeFilter, setActiveFilter] = useState("all");
   const [betStatusFilter, setBetStatusFilter] = useState("all");
 
-  const userData = {
-    username: "lolcatz",
-    totalBetsWon: 2,
-    totalBetsLost: 1,
-    totalAmount: 2500,
-    memesPosted: 3,
-    memes: [
-      {
-        id: 1,
-        title: "Web3 Problems",
-        likes: 234,
-        date: "2024-01-28",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrSHffAqYqYsZhUL2N4-AUiXQaqF_j0i4DgQ&s",
-      },
-      {
-        id: 2,
-        title: "DeFi Drama",
-        likes: 456,
-        date: "2024-01-27",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRApZ1TShZS6pLdOfZ6JMd5dTzG0VPaG5BGwg&s",
-      },
-      {
-        id: 3,
-        title: "NFT Life",
-        likes: 789,
-        date: "2024-01-26",
-        image:
-          "https://indianmemetemplates.com/wp-content/uploads/abhi-maza-ayega-na-bhidu.jpg",
-      },
-    ],
-    bets: [
-      {
-        id: 1,
-        amount: 100,
-        choice: "viral",
-        status: "won",
-        date: "2024-01-28",
-        memeTitle: "Web3 Problems",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSIaAq28U6EHpm7IIz-TjWYF9Fy0eKsilsKg&s",
-      },
-      {
-        id: 2,
-        amount: 50,
-        choice: "non-viral",
-        status: "lost",
-        date: "2024-01-27",
-        memeTitle: "DeFi Drama",
-        image: "https://pbs.twimg.com/media/EX4CyEzWsAIbzLn.jpg",
-      },
-      {
-        id: 3,
-        amount: 75,
-        choice: "viral",
-        status: "in-progress",
-        date: "2024-01-26",
-        memeTitle: "NFT Life",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCWqXFjKjgCdrTLfl2fr8PnedFyzHhHhvXSQ&s",
-      },
-    ],
-  };
+  // const userData = {
+  //   username: "lolcatz",
+  //   totalBetsWon: 2,
+  //   totalBetsLost: 1,
+  //   totalAmount: 2500,
+  //   memesPosted: 3,
+  //   memes: [
+  //     {
+  //       id: 1,
+  //       title: "Web3 Problems",
+  //       likes: 234,
+  //       date: "2024-01-28",
+  //       image:
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrSHffAqYqYsZhUL2N4-AUiXQaqF_j0i4DgQ&s",
+  //     },
+
+  //   ],
+  //   bets: [
+  //     {
+  //       id: 2,
+  //       amount: 50,
+  //       choice: "non-viral",
+  //       status: "lost",
+  //       date: "2024-01-27",
+  //       memeTitle: "DeFi Drama",
+  //       image: "https://pbs.twimg.com/media/EX4CyEzWsAIbzLn.jpg",
+  //     },
+
+  //   ],
+  // };
+
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+
+        const { data } = await axios.get(
+          import.meta.env.VITE_SERVER_URI +
+            `/api/users/${localStorage.getItem("email")}`
+        );
+        setUserData(data);
+      } catch (error) {
+        console.error(error);
+
+        toast.error("Failed to fetch user data");
+
+        setUserData([]);
+      } finally {
+        setTimeout(() => setLoading(false), 1000);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className=" text-yellow-500 loader "/>
+      </div>
+    );
+  }
+
+  if (userData.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-white text-lg">No user found</p>
+      </div>
+    );
+  }
 
   const filteredMemes = userData.memes
     .filter((meme) =>
@@ -103,6 +113,8 @@ const UserDashboard = () => {
       if (activeFilter === "oldest") return new Date(a.date) - new Date(b.date);
       return 0;
     });
+
+ 
 
   return (
     <div className="min-h-screen primary-font bg-gray-900 p-6">
@@ -153,7 +165,8 @@ const UserDashboard = () => {
           />
         </div>
 
-        <div className="flex gap-2">
+       {
+        activeTab === "memes" ? (  <div className="flex gap-2">
           {["all", "oldest", "latest"].map((filter) => (
             <button
               key={filter}
@@ -168,6 +181,24 @@ const UserDashboard = () => {
             </button>
           ))}
         </div>
+        ) :  (
+          <div className="flex gap-2">
+            {["all", "won", "lost", "in-progress"].map((status) => (
+              <button
+                key={status}
+                onClick={() => setBetStatusFilter(status)}
+                className={`px-4 py-2 rounded-lg capitalize transition-colors ${
+                  betStatusFilter === status
+                    ? "bg-yellow-400 text-gray-900"
+                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        )
+       }
       </div>
 
       <div className="flex mb-6 gap-2">
@@ -194,24 +225,6 @@ const UserDashboard = () => {
           My Bets
         </button>
       </div>
-
-      {activeTab === "bets" && (
-        <div className="flex gap-2 mb-4">
-          {["all", "won", "lost", "in-progress"].map((status) => (
-            <button
-              key={status}
-              onClick={() => setBetStatusFilter(status)}
-              className={`px-4 py-2 rounded-lg capitalize transition-colors ${
-                betStatusFilter === status
-                  ? "bg-yellow-400 text-gray-900"
-                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-              }`}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
-      )}
 
       {activeTab === "memes" ? (
         <MemesGrid memes={filteredMemes} />
