@@ -21,10 +21,6 @@ app.use(express.json());
 
 app.use("/api/memes", memeRouter);
 app.use("/api/users", userRouter);
-app.use("*", (_req, res) => {
-  res.status(404).send("404 Not Found");
-});
-
 app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
