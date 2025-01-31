@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { FaHandHoldingHeart } from 'react-icons/fa';
 import ViralToggle from './ViralAction';
+import ShareButton from './ShareComponent';
 
 const Reel = ({
 	media,
@@ -212,12 +213,9 @@ const Reel = ({
 					<span className='text-xs text-white mt-2'>{likesCount} Likes</span>
 				</div>
 
-				{/* Share Button with Shares Count */}
 				<div className='flex flex-col items-center'>
-					<button className='p-2 rounded-full border border-[#eee31a] text-white bg-slate-900 hover:bg-gray-700'>
-						<FaShare size={15} />
-					</button>
-					<span className='text-xs text-white mt-2'>{shares} Shares</span>
+						<ShareButton memeTitle={title} memeId={id} />
+					<span className='text-xs text-white mt-2'> Share</span>
 				</div>
 
 				<div onClick={handleSupport} className='flex flex-col items-center'>
