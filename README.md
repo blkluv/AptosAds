@@ -20,3 +20,8 @@ The world of memes thrives on creativity and virality, yet it lacks a structured
 4. Blockchain Transparency: By leveraging the Aptos blockchain, AptosOdds ensures transparent, secure, and tamper-proof transactions, fostering trust among users and creators.
 
 5. Promoting Meme Culture: AptosOdds creates a system where memes aren't just fleeting internet trends—they are nurtured, promoted, and transformed into sustainable, blockchain-backed ecosystems that empower both creators and communities.
+
+## **📽️ Video Demonstration**
+https://youtu.be/c6RS4tnoQgw?si=wUlEdEZ8NlsaGVkY
+<br />
+[![Video Title](https://img.youtube.com/vi/c6RS4tnoQgw/0.jpg)](https://youtu.be/c6RS4tnoQgw?si=wUlEdEZ8NlsaGVkY)
