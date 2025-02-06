@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 const ShareButton = ({ memeTitle, memeId }) => {
   const [open, setOpen] = useState(false);
-  const url = `https://aptosodds.vercel.app/meme/${memeId}`;
+  const url = `https://memebet.luvnft.com/meme/${memeId}`;
 
   const dropdownRef = useRef(null);
 
@@ -104,7 +104,7 @@ const ShareButton = ({ memeTitle, memeId }) => {
       {open && (
         <div
           ref={dropdownRef}
-          className="absolute right-0 mt-2 w-64 bg-gray-900 text-white rounded-lg shadow-lg p-3 grid grid-cols-3 gap-3 border border-yellow-500"
+          className="absolute right-0 grid w-64 grid-cols-3 gap-3 p-3 mt-2 text-white bg-gray-900 border border-yellow-500 rounded-lg shadow-lg"
         >
           {ShareArray.map((share) => (
             <button

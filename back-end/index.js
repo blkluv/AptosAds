@@ -9,7 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      'https://aptosodds.vercel.app',
+      'https://memebet.luvnft.com',
       'http://localhost:5173',
       'http://localhost:5000'
     ],
