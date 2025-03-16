@@ -62,8 +62,8 @@ const ListingPage = () => {
 	return (
 		<div className='min-h-[calc(100vh-60px)] bg-gray-900 text-white py-8 px-4'>
 			{/* Form to create a new reel */}
-			<div className='max-w-3xl mx-auto primary-font bg-gray-800 rounded-lg shadow-lg p-8'>
-				<h1 className='text-3xl primary-font text-yellow-400 font-bold text-center mb-8'>
+			<div className='max-w-3xl p-8 mx-auto bg-gray-800 rounded-lg shadow-lg primary-font'>
+				<h1 className='mb-8 text-3xl font-bold text-center text-yellow-400 primary-font'>
 					Upload a New Meme 😂
 				</h1>
 				<form onSubmit={handleSubmit} className='space-y-6'>
@@ -71,7 +71,7 @@ const ListingPage = () => {
 					<div>
 						<label
 							htmlFor='title'
-							className='text-lg mb-2 font-semibold text-yellow-500'
+							className='mb-2 text-lg font-semibold text-yellow-500'
 						>
 							Title
 						</label>
@@ -80,7 +80,7 @@ const ListingPage = () => {
 							type='text'
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							className='w-full secondary-font p-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
+							className='w-full p-2 text-white bg-gray-700 rounded-lg secondary-font focus:outline-none focus:ring-2 focus:ring-yellow-500'
 							placeholder='Enter the title for your meme'
 							required
 						/>
@@ -91,7 +91,7 @@ const ListingPage = () => {
 					<div>
 						<label
 							htmlFor='description'
-							className='text-lg mb-2 font-semibold text-yellow-500'
+							className='mb-2 text-lg font-semibold text-yellow-500'
 						>
 							Description
 						</label>
@@ -99,7 +99,7 @@ const ListingPage = () => {
 							id='description'
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							className='w-full secondary-font p-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500'
+							className='w-full p-2 text-white bg-gray-700 rounded-lg secondary-font focus:outline-none focus:ring-2 focus:ring-yellow-500'
 							placeholder='Enter a description for your meme'
 							rows='6'
 							required
@@ -114,18 +114,18 @@ const ListingPage = () => {
 					<div className='uploadcare-widget'>
 						<label
 							htmlFor='videoLink'
-							className='text-lg mb-1 font-semibold items-baseline gap-1 text-yellow-500 flex'
+							className='flex items-baseline gap-1 mb-1 text-lg font-semibold text-yellow-500'
 						>
 							Upload Media
-							<p className='text-white text-sm secondary-font'>(Image/Video)</p>
+							<p className='text-sm text-white secondary-font'>(Image/Video)</p>
 						</label>
-						<p className='text-sm secondary-font text-gray-300 pb-3'>
+						<p className='pb-3 text-sm text-gray-300 secondary-font'>
 							Note: Aspect ratio should be 9:16
 						</p>
 						<FileUploaderRegular
 							sourceList='local, url, camera, gdrive'
 							classNameUploader='uc-dark uc-orange'
-							pubkey='63c390ba99b5cdeed23a'
+							pubkey='299a07b6a5e65a456eea'
 							multiple={false}
 							accept='image/*, video/*'
 							onFileUploadSuccess={(e) => {
@@ -142,13 +142,13 @@ const ListingPage = () => {
 									<img
 										src={videoLink}
 										alt='Uploaded Image'
-										className='w-1/3 rounded-xl my-2'
+										className='w-1/3 my-2 rounded-xl'
 									/>
 								) : (
 									<video
 										src={videoLink}
 										controls
-										className='w-1/3 rounded-xl my-2'
+										className='w-1/3 my-2 rounded-xl'
 									></video>
 								)}
 							</div>
@@ -158,11 +158,11 @@ const ListingPage = () => {
 					<div className='w-full'>
 						<button
 							type='submit'
-							className='px-6 py-2 w-full text-center text-xl bg-yellow-400 hover:bg-yellow-500 rounded-lg text-black font-medium'
+							className='w-full px-6 py-2 text-xl font-medium text-center text-black bg-yellow-400 rounded-lg hover:bg-yellow-500'
 						>
 							{loading ? (
 								<img
-									className='animate-spin mx-auto'
+									className='mx-auto animate-spin'
 									width={30}
 									src='https://www.freeiconspng.com/thumbs/load-icon-png/load-icon-png-8.png'
 								/>

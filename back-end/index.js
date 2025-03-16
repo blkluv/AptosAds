@@ -9,7 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      'https://aptosodds.vercel.app',
+      'https://memebet.luvnft.com',
       'http://localhost:5173',
       'http://localhost:5000'
     ],
@@ -26,5 +26,5 @@ app.get("/", (_req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on https://memebet.luvnft.com`);
 });
